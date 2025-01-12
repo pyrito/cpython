@@ -173,6 +173,7 @@ augassign[AugOperator*]:
     | '>>=' { _PyPegen_augoperator(p, RShift) }
     | '**=' { _PyPegen_augoperator(p, Pow) }
     | '//=' { _PyPegen_augoperator(p, FloorDiv) }
+    | '$='  { _PyPegen_augoperator(p, Cash) }
 
 return_stmt[stmt_ty]:
     | 'return' a=[star_expressions] { _PyAST_Return(a, EXTRA) }
@@ -794,6 +795,7 @@ term[expr_ty]:
     | a=term '//' b=factor { _PyAST_BinOp(a, FloorDiv, b, EXTRA) }
     | a=term '%' b=factor { _PyAST_BinOp(a, Mod, b, EXTRA) }
     | a=term '@' b=factor { CHECK_VERSION(expr_ty, 5, "The '@' operator is", _PyAST_BinOp(a, MatMult, b, EXTRA)) }
+    | a=term '$' b=factor { _PyAST_BinOp(a, Cash, b, EXTRA) }
     | invalid_factor
     | factor
 

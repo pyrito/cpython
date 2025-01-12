@@ -1140,6 +1140,25 @@ PyNumber_Add(PyObject *v, PyObject *w)
     return binop_type_error(v, w, "+");
 }
 
+PyObject *
+PyNumber_Cash(PyObject *v, PyObject *w)
+{
+    PyObject *result = BINARY_OP1(v, w, NB_SLOT(nb_cash), "+");
+    if (result != Py_NotImplemented) {
+        return result;
+    }
+    Py_DECREF(result);
+
+    PySequenceMethods *m = Py_TYPE(v)->tp_as_sequence;
+    if (m && m->sq_concat) {
+        result = (*m->sq_concat)(v, w);
+        assert(_Py_CheckSlotResult(v, "+", result != NULL));
+        return result;
+    }
+
+    return binop_type_error(v, w, "+");
+}
+
 static PyObject *
 sequence_repeat(ssizeargfunc repeatfunc, PyObject *seq, PyObject *n)
 {

@@ -363,6 +363,10 @@ const binaryfunc _PyEval_BinaryOps[] = {
     [NB_INPLACE_SUBTRACT] = PyNumber_InPlaceSubtract,
     [NB_INPLACE_TRUE_DIVIDE] = PyNumber_InPlaceTrueDivide,
     [NB_INPLACE_XOR] = PyNumber_InPlaceXor,
+    [NB_CASH] = PyNumber_Cash,
+    [NB_INPLACE_CASH] = PyNumber_Cash,
+    // TODO: add a new binary op here that does what we want
+    // the binary op is defined in abstract.c which explains how we should handle them
 };
 
 const conversion_func _PyEval_ConversionFuncs[4] = {
