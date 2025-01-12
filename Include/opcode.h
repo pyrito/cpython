@@ -34,8 +34,10 @@ extern "C" {
 #define NB_INPLACE_TRUE_DIVIDE                  24
 #define NB_INPLACE_XOR                          25
 #define NB_SUBSCR                               26
+#define NB_CASH                                 27
+#define NB_INPLACE_CASH                         28
 
-#define NB_OPARG_LAST                           26
+#define NB_OPARG_LAST                           28
 
 #ifdef __cplusplus
 }

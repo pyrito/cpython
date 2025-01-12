@@ -1830,6 +1830,9 @@ eval_const_binop(PyObject *left, int op, PyObject *right)
         case NB_MATRIX_MULTIPLY:
             // No builtin constants implement matrix multiplication
             break;
+        case NB_CASH:
+            result = PyNumber_Cash(left, right);
+            break;
         default:
             Py_UNREACHABLE();
     }
