@@ -61,6 +61,8 @@ const char * const _PyParser_TokenNames[] = {
     "ELLIPSIS",
     "COLONEQUAL",
     "EXCLAMATION",
+    "DOLLAR",
+    "DOLLAREQUAL",
     "OP",
     "TYPE_IGNORE",
     "TYPE_COMMENT",
@@ -82,6 +84,7 @@ _PyToken_OneChar(int c1)
 {
     switch (c1) {
     case '!': return EXCLAMATION;
+    case '$': return DOLLAR;
     case '%': return PERCENT;
     case '&': return AMPER;
     case '(': return LPAR;
@@ -116,6 +119,11 @@ _PyToken_TwoChars(int c1, int c2)
     case '!':
         switch (c2) {
         case '=': return NOTEQUAL;
+        }
+        break;
+    case '$':
+        switch (c2) {
+        case '=': return DOLLAREQUAL;
         }
         break;
     case '%':

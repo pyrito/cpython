@@ -205,6 +205,14 @@
 
    Token value for ``"!"``.
 
+.. data:: DOLLAR
+
+   Token value for ``"$"``.
+
+.. data:: DOLLAREQUAL
+
+   Token value for ``"$="``.
+
 .. data:: OP
 
 .. data:: TYPE_IGNORE

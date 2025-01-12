@@ -102,6 +102,10 @@ typedef struct {
 
     binaryfunc nb_matrix_multiply;
     binaryfunc nb_inplace_matrix_multiply;
+
+    binaryfunc nb_cash;
+    binaryfunc nb_inplace_cash;
+    // TODO: add a new method here
 } PyNumberMethods;
 
 typedef struct {

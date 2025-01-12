@@ -37,7 +37,7 @@
                 ADVANCE_ADAPTIVE_COUNTER(this_instr[1].counter);
                 #endif  /* ENABLE_SPECIALIZATION_FT */
                 assert(NB_ADD <= oparg);
-                assert(oparg <= NB_INPLACE_XOR);
+                assert(oparg <= NB_INPLACE_CASH);
             }
             // _BINARY_OP
             {

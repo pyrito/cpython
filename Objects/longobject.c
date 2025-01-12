@@ -6489,6 +6489,49 @@ long_long_meth(PyObject *self, PyObject *Py_UNUSED(ignored))
     return long_long(self);
 }
 
+static PyLongObject *
+long_cash(PyLongObject *a, PyLongObject *b)
+{
+    // Fun method that just calculates compound interest based on the
+    // whole number rate given (variable b) for 20 years
+    // z = a * (1+b)^20
+    // b -> will be converted to a double eventually...
+    PyLongObject *z;
+
+    // double rate = PyLong_AsDouble(b) / 100.0;
+    // PyLongObject *tmp = long_add
+    // if (_PyLong_IsNegative(a)) {
+    //     if (_PyLong_IsNegative(b)) {
+    //         z = x_add(a, b);
+    //         if (z != NULL) {
+    //             /* x_add received at least one multiple-digit int,
+    //                and thus z must be a multiple-digit int.
+    //                That also means z is not an element of
+    //                small_ints, so negating it in-place is safe. */
+    //             assert(Py_REFCNT(z) == 1);
+    //             _PyLong_FlipSign(z);
+    //         }
+    //     }
+    //     else
+    //         z = x_sub(b, a);
+    // }
+    // else {
+    //     if (_PyLong_IsNegative(b))
+    //         z = x_sub(a, b);
+    //     else
+    //         z = x_add(a, b);
+    // }
+    z = k_mul(a, b);
+    return z;
+}
+
+static PyObject *
+long_cash_method(PyObject *a, PyObject *b)
+{
+    CHECK_BINOP(a, b);
+    return (PyObject*)long_cash((PyLongObject*)a, (PyLongObject*)b);
+}
+
 /*[clinic input]
 int.is_integer
 
@@ -6618,6 +6661,10 @@ static PyNumberMethods long_as_number = {
     0,                          /* nb_inplace_floor_divide */
     0,                          /* nb_inplace_true_divide */
     long_long,                  /* nb_index */
+    0,                          /* nb_matrix_multiply */
+    0,                          /* nb_inplace_matrix_multiply */
+    long_cash_method,           /* nb_cash */
+    0                           /* nb_inplace_cash */
 };
 
 PyTypeObject PyLong_Type = {

@@ -536,6 +536,12 @@ PyAPI_FUNC(PyObject *) PyNumber_Xor(PyObject *o1, PyObject *o2);
    This is the equivalent of the Python expression: o1 | o2. */
 PyAPI_FUNC(PyObject *) PyNumber_Or(PyObject *o1, PyObject *o2);
 
+/* Returns the result of bitwise and of o1 and o2 on success, or NULL on
+   failure.
+
+   This is the equivalent of the Python expression: o1 & o2. */
+PyAPI_FUNC(PyObject *) PyNumber_Cash(PyObject *o1, PyObject *o2);
+
 /* Returns 1 if obj is an index integer (has the nb_index slot of the
    tp_as_number structure filled in), and 0 otherwise. */
 PyAPI_FUNC(int) PyIndex_Check(PyObject *);

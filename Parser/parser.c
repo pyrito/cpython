@@ -2324,6 +2324,7 @@ annotated_rhs_rule(Parser *p)
 //     | '>>='
 //     | '**='
 //     | '//='
+//     | '$='
 static AugOperator*
 augassign_rule(Parser *p)
 {
@@ -2647,6 +2648,30 @@ augassign_rule(Parser *p)
         p->mark = _mark;
         D(fprintf(stderr, "%*c%s augassign[%d-%d]: %s failed!\n", p->level, ' ',
                   p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "'//='"));
+    }
+    { // '$='
+        if (p->error_indicator) {
+            p->level--;
+            return NULL;
+        }
+        D(fprintf(stderr, "%*c> augassign[%d-%d]: %s\n", p->level, ' ', _mark, p->mark, "'$='"));
+        Token * _literal;
+        if (
+            (_literal = _PyPegen_expect_token(p, 56))  // token='$='
+        )
+        {
+            D(fprintf(stderr, "%*c+ augassign[%d-%d]: %s succeeded!\n", p->level, ' ', _mark, p->mark, "'$='"));
+            _res = _PyPegen_augoperator ( p , Cash );
+            if (_res == NULL && PyErr_Occurred()) {
+                p->error_indicator = 1;
+                p->level--;
+                return NULL;
+            }
+            goto done;
+        }
+        p->mark = _mark;
+        D(fprintf(stderr, "%*c%s augassign[%d-%d]: %s failed!\n", p->level, ' ',
+                  p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "'$='"));
     }
     _res = NULL;
   done:
@@ -13372,6 +13397,7 @@ sum_raw(Parser *p)
 //     | term '//' factor
 //     | term '%' factor
 //     | term '@' factor
+//     | term '$' factor
 //     | invalid_factor
 //     | factor
 static expr_ty term_raw(Parser *);
@@ -13624,6 +13650,45 @@ term_raw(Parser *p)
         p->mark = _mark;
         D(fprintf(stderr, "%*c%s term[%d-%d]: %s failed!\n", p->level, ' ',
                   p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "term '@' factor"));
+    }
+    { // term '$' factor
+        if (p->error_indicator) {
+            p->level--;
+            return NULL;
+        }
+        D(fprintf(stderr, "%*c> term[%d-%d]: %s\n", p->level, ' ', _mark, p->mark, "term '$' factor"));
+        Token * _literal;
+        expr_ty a;
+        expr_ty b;
+        if (
+            (a = term_rule(p))  // term
+            &&
+            (_literal = _PyPegen_expect_token(p, 55))  // token='$'
+            &&
+            (b = factor_rule(p))  // factor
+        )
+        {
+            D(fprintf(stderr, "%*c+ term[%d-%d]: %s succeeded!\n", p->level, ' ', _mark, p->mark, "term '$' factor"));
+            Token *_token = _PyPegen_get_last_nonnwhitespace_token(p);
+            if (_token == NULL) {
+                p->level--;
+                return NULL;
+            }
+            int _end_lineno = _token->end_lineno;
+            UNUSED(_end_lineno); // Only used by EXTRA macro
+            int _end_col_offset = _token->end_col_offset;
+            UNUSED(_end_col_offset); // Only used by EXTRA macro
+            _res = _PyAST_BinOp ( a , Cash , b , EXTRA );
+            if (_res == NULL && PyErr_Occurred()) {
+                p->error_indicator = 1;
+                p->level--;
+                return NULL;
+            }
+            goto done;
+        }
+        p->mark = _mark;
+        D(fprintf(stderr, "%*c%s term[%d-%d]: %s failed!\n", p->level, ' ',
+                  p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "term '$' factor"));
     }
     if (p->call_invalid_rules) { // invalid_factor
         if (p->error_indicator) {

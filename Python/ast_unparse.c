@@ -158,6 +158,7 @@ append_ast_binop(_PyUnicodeWriter *writer, expr_ty e, int level)
     case BitXor: op = " ^ "; pr = PR_BXOR; break;
     case BitAnd: op = " & "; pr = PR_BAND; break;
     case FloorDiv: op = " // "; pr = PR_TERM; break;
+    case Cash: op = " $ "; pr = PR_TERM; break;
     case Pow: op = " ** "; pr = PR_POWER; rassoc = true; break;
     default:
         PyErr_SetString(PyExc_SystemError,
