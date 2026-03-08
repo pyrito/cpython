@@ -103,6 +103,10 @@ typedef struct {
 
     binaryfunc nb_matrix_multiply;
     binaryfunc nb_inplace_matrix_multiply;
+
+    /* Newly added */
+    binaryfunc nb_cash;
+    binaryfunc nb_inplace_cash;
 } PyNumberMethods;
 
 typedef struct {

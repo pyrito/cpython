@@ -6522,6 +6522,27 @@ long_long_getter(PyObject *self, void *Py_UNUSED(ignored))
     return long_long(self);
 }
 
+static PyLongObject *
+long_cash(PyLongObject *a, PyLongObject *b)
+{
+    // Fun method that just calculates compound interest based on the
+    // whole number rate given (variable b) for 20 years
+    // z = a * (1+b)^20
+    // b -> will be converted to a double eventually...
+    PyLongObject *tmp1 = long_add((PyLongObject*)PyLong_FromLong(1), b);
+    if ( tmp1 == NULL ) {
+        return NULL;
+    }
+    return long_mul(tmp1, a);
+}
+
+static PyObject *
+long_cash_method(PyObject *a, PyObject *b)
+{
+    CHECK_BINOP(a, b);
+    return (PyObject*)long_cash((PyLongObject*)a, (PyLongObject*)b);
+}
+
 /*[clinic input]
 int.is_integer
 
@@ -6651,6 +6672,10 @@ static PyNumberMethods long_as_number = {
     0,                          /* nb_inplace_floor_divide */
     0,                          /* nb_inplace_true_divide */
     long_long,                  /* nb_index */
+    0,                          /* nb_matrix_multiply */
+    0,                          /* nb_inplace_matrix_multiply */
+    long_cash_method,           /* nb_cash */
+    0                           /* nb_inplace_cash */
 };
 
 PyTypeObject PyLong_Type = {

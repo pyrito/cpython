@@ -1133,6 +1133,7 @@ BINARY_FUNC(PyNumber_Lshift, nb_lshift, "<<")
 BINARY_FUNC(PyNumber_Rshift, nb_rshift, ">>")
 BINARY_FUNC(PyNumber_Subtract, nb_subtract, "-")
 BINARY_FUNC(PyNumber_Divmod, nb_divmod, "divmod()")
+BINARY_FUNC(PyNumber_Cash, nb_cash, "$")
 
 PyObject *
 PyNumber_Add(PyObject *v, PyObject *w)
@@ -1302,6 +1303,7 @@ INPLACE_BINOP(PyNumber_InPlaceMatrixMultiply, nb_inplace_matrix_multiply, nb_mat
 INPLACE_BINOP(PyNumber_InPlaceFloorDivide, nb_inplace_floor_divide, nb_floor_divide, "//=")
 INPLACE_BINOP(PyNumber_InPlaceTrueDivide, nb_inplace_true_divide, nb_true_divide,  "/=")
 INPLACE_BINOP(PyNumber_InPlaceRemainder, nb_inplace_remainder, nb_remainder, "%=")
+INPLACE_BINOP(PyNumber_InPlaceCash, nb_inplace_cash, nb_cash, "$=")
 
 PyObject *
 PyNumber_InPlaceAdd(PyObject *v, PyObject *w)
