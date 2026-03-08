@@ -546,7 +546,7 @@ PyAPI_FUNC(PyObject *) PyNumber_Xor(PyObject *o1, PyObject *o2);
    This is the equivalent of the Python expression: o1 | o2. */
 PyAPI_FUNC(PyObject *) PyNumber_Or(PyObject *o1, PyObject *o2);
 
-/* Returns the result of $ of o1 and o2 on success, or NULL on
+/* Returns the result of $ on o1 and o2 on success, or NULL on
    failure.
 
    This is the equivalent of the Python expression: o1 $ o2. */
@@ -663,6 +663,12 @@ PyAPI_FUNC(PyObject *) PyNumber_InPlaceXor(PyObject *o1, PyObject *o2);
 
    This is the equivalent of the Python expression: o1 |= o2. */
 PyAPI_FUNC(PyObject *) PyNumber_InPlaceOr(PyObject *o1, PyObject *o2);
+
+/* Returns the result of $ on o1 and o2 on success, possible in-place,
+   or NULL on failure.
+
+   This is the equivalent of the Python expression: o1 $= o2. */
+PyAPI_FUNC(PyObject *) PyNumber_InPlaceCash(PyObject *o1, PyObject *o2);
 
 /* Returns the integer n converted to a string with a base, with a base
    marker of 0b, 0o or 0x prefixed if applicable.

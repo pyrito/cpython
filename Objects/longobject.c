@@ -6529,33 +6529,11 @@ long_cash(PyLongObject *a, PyLongObject *b)
     // whole number rate given (variable b) for 20 years
     // z = a * (1+b)^20
     // b -> will be converted to a double eventually...
-    PyLongObject *z;
-
-    // double rate = PyLong_AsDouble(b) / 100.0;
-    // PyLongObject *tmp = long_add
-    // if (_PyLong_IsNegative(a)) {
-    //     if (_PyLong_IsNegative(b)) {
-    //         z = x_add(a, b);
-    //         if (z != NULL) {
-    //             /* x_add received at least one multiple-digit int,
-    //                and thus z must be a multiple-digit int.
-    //                That also means z is not an element of
-    //                small_ints, so negating it in-place is safe. */
-    //             assert(Py_REFCNT(z) == 1);
-    //             _PyLong_FlipSign(z);
-    //         }
-    //     }
-    //     else
-    //         z = x_sub(b, a);
-    // }
-    // else {
-    //     if (_PyLong_IsNegative(b))
-    //         z = x_sub(a, b);
-    //     else
-    //         z = x_add(a, b);
-    // }
-    z = k_mul(a, b);
-    return z;
+    PyLongObject *tmp1 = long_add((PyLongObject*)PyLong_FromLong(1), b);
+    if ( tmp1 == NULL ) {
+        return NULL;
+    }
+    return long_mul(tmp1, a);
 }
 
 static PyObject *
